@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fernando Lange Website - Cursos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .hero-section {
+      background: #343a40;
+      color: white;
+      padding: 4rem 0;
+    }
+    
+    .course-card {
+      transition: transform 0.2s ease-in-out;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .course-image {
+      border-radius: 8px;
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+    }
+    
+    .section-title {
+      color: #495057;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: #667eea;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column h-100">
+
+  <header>
+    {% include 'header.html' %}
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-4 fw-bold mb-3">Cursos da Pycodemoz</h1>
+          <p class="lead mb-4">Desenvolva suas habilidades em programação com nossos cursos práticos e atualizados</p>
+        </div>
+        <div class="col-lg-4">
+          <img class="img-fluid rounded shadow" src="static/dev.jpg" alt="Desenvolvimento de Software" style="max-height: 300px; width: 100%; object-fit: cover;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conteúdo principal -->
+  <main class="flex-shrink-0">
+    <div class="container py-5">
+      
+      <!-- Seção Sobre os Cursos -->
+      <section class="mb-5">
+        <h2 class="section-title">Por que escolher nossos cursos?</h2>
+        
+        <div class="row">
+          <div class="col-lg-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <div class="mb-3">
+                  <i class="fab fa-python" style="font-size: 3rem; color: #3776ab;"></i>
+                </div>
+                <h5 class="card-title">Python</h5>
+                <p class="card-text">Aprenda uma das linguagens mais populares do mundo, utilizada em IA, automação e desenvolvimento web.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <div class="mb-3">
+                  <i class="fab fa-html5" style="font-size: 3rem; color: #e34c26;"></i>
+                </div>
+                <h5 class="card-title">HTML & CSS</h5>
+                <p class="card-text">Domine as tecnologias fundamentais para criar páginas web modernas e responsivas.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <div class="mb-3">
+                  <i class="fas fa-code" style="font-size: 3rem; color: #28a745;"></i>
+                </div>
+                <h5 class="card-title">Projetos Práticos</h5>
+                <p class="card-text">Construa projetos reais e desenvolva um portfólio profissional durante o aprendizado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Descrição Detalhada -->
+      <section class="mb-5">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="bg-light p-4 rounded">
+              <p class="mb-3">
+                O curso de programação em Python, HTML e CSS oferece uma base sólida para quem deseja entrar no mundo do desenvolvimento de software e web. Python, sendo uma das linguagens mais populares e fáceis de aprender, é amplamente utilizado em áreas como automação, análise de dados, inteligência artificial e desenvolvimento de aplicações.
+              </p>
+
+              <p class="mb-3">     
+                Além de Python, o curso aborda HTML e CSS, que são fundamentais para a criação de páginas e aplicações web. O HTML é responsável pela estrutura do conteúdo, enquanto o CSS cuida da aparência visual, definindo cores, estilos e layouts.
+              </p>
+
+              <p class="mb-0">   
+                A combinação desses três pilares prepara o aluno para construir desde pequenos scripts até páginas dinâmicas e interativas. O curso é ideal tanto para iniciantes quanto para aqueles que desejam consolidar seus conhecimentos e iniciar projetos próprios.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lista de Cursos -->
+      <section>
+        <h2 class="section-title">Cursos Disponíveis</h2>
+        
+        <div class="row">
+          {% for course in courses %}
+          <div class="col-lg-6 mb-4">
+            <div class="course-card">
+              <div class="d-flex align-items-center">
+                <img src="{{ course.image }}" alt="{{ course.title }}" class="course-image me-4">
+                
+                <div class="flex-grow-1">
+                  <h5 class="mb-2">
+                    <a href="#" class="text-decoration-none text-dark">{{ course.title }}</a>
+                  </h5>
+                  <p class="text-muted mb-3 small">{{ course.description or 'Desenvolva suas habilidades com este curso prático e completo.' }}</p>
+                  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-primary">{{ course.level or 'Iniciante' }}</span>
+                    <button class="btn btn-outline-success btn-sm">
+                      <i class="fas fa-play me-1"></i>
+                      Inscrever-se
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        
+        <!-- Caso não haja cursos -->
+        {% if not courses %}
+        <div class="text-center py-5">
+          <div class="mb-4">
+            <i class="fas fa-book-open" style="font-size: 4rem; color: #6c757d;"></i>
+          </div>
+          <h4 class="text-muted">Novos cursos em breve!</h4>
+          <p class="text-muted">Estamos preparando conteúdos incríveis para você. Volte em breve!</p>
+        </div>
+        {% endif %}
+      </section>
+      
+    </div>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="footer mt-auto py-4 bg-dark text-light">
+    <div class="container text-center">
+      {% include 'footer.html' %}
+    </div>
+  </footer>
+
+  <!-- Font Awesome para ícones -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
