@@ -1,46 +1,29 @@
 from flask import Flask, render_template, jsonify
+from sqlalchemy import text
+from database import engine
+
 
 
 app = Flask(__name__)
 
 
-COURSES = [
-    {
-        'id': 1,
-        'title': "Curso de HTML e CSS",
-        'image': "static/html_css.jpeg"
-    },
-    {
-        'id': 2,
-        'title': "Curso de JavaScript",
-        'image': "static/js.png"
-    },
-    {
-        'id': 3,
-        'title': "Curso de Python",
-        'image': "static/python.jpeg"
-    },
-    {
-        'id': 4,
-        'title': "Curso de Django",
-        'image': "static/django.jpeg"
-    },
-    
-    {
-        'id': 5,
-        'title': "Curso de Django Rest Framework",
-        'image': "static/rest_framework.png"
-    }
-]
+def load_courses_db():
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM courses"))
+        courses = []
+        for row in result.mappings().all():   # <-- .mappings() transforma em dict
+            courses.append(dict(row))
+        return courses
 
-
+        
 @app.route("/")
 def home():
-  return render_template('home.html', courses=COURSES)
+    courses = load_courses_db()
+    return render_template('home.html', courses=courses)
 
 @app.route("/api/courses/")
 def list_course():
-    return jsonify(COURSES)
+    return jsonify(load_courses_db())
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', debug=True)
