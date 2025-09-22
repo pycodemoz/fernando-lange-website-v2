@@ -4,13 +4,16 @@ from sqlalchemy import create_engine, text
 
 
 
+# Pega a connection string do Render
+db_url = os.environ.get("DATABASE_URL")
+if not db_url:
+    raise ValueError("A variável de ambiente DATABASE_URL não está definida.")
+
+engine = create_engine(db_url)
 
 
-    # engine = create_engine(
+# engine = create_engine(
     #             "mysql+pymysql://root:Riqueza1822@localhost/courses")
-engine = create_engine(
-    "postgresql://courses_db_ybb6_user:<senha>@dpg-d38n5kvfte5s73c8haag-a.oregon-postgres.render.com:5432/courses_db_ybb6"
-)
 
 
 def load_courses_db():
