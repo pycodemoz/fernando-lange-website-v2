@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from database import load_courses_db, load_course_db_id, add_dataform_to_db, engine
+from database import load_courses_db, load_course_db_id, add_dataform_to_db, view_students_db
 
 
 
@@ -45,7 +45,26 @@ def submit_course(id):
     except Exception as e:
         return f"Erro inesperado: {e}"
 
-    
+@app.route("/api/students/list")
+def students_list():
+    return jsonify(view_students_db())
 
+@app.route("/students/subscribe")
+def students_subcribe():
+    students = view_students_db()  # carrega students com course_id
+    courses = load_courses_db()    # carrega courses com id e title
+    
+    # Faz o "join" manual
+    for student in students:
+        course_id = student.get('course_id')
+        if course_id:
+            # Encontra o curso pelo ID
+            course = next((c for c in courses if c['id'] == course_id), None)
+            student['course_title'] = course['title'] if course else 'Curso não encontrado'
+        else:
+            student['course_title'] = 'Não inscrito'
+    
+    return render_template("students.html", students=students)
+    
 if __name__ == "__main__":
   app.run(host='0.0.0.0', debug=True)

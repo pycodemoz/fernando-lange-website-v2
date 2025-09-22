@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alunos Inscritos</title>
+  {% include 'bootstrap.html' %}
+  <style>
+    /* Hero Section Styles */
+    .hero-section {
+      background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+      color: white;
+      padding: 4rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    /* Course Badge Styles */
+    .course-badge {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-block;
+      box-shadow: 0 2px 4px rgba(0,123,255,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .course-badge:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,123,255,0.4);
+    }
+    
+    /* Alternative course colors */
+    .course-badge.bg-success {
+      background: linear-gradient(45deg, #28a745, #1e7e34);
+      box-shadow: 0 2px 4px rgba(40,167,69,0.3);
+    }
+    
+    .course-badge.bg-warning {
+      background: linear-gradient(45deg, #ffc107, #e0a800);
+      box-shadow: 0 2px 4px rgba(255,193,7,0.3);
+      color: #212529;
+    }
+    
+    .course-badge.bg-info {
+      background: linear-gradient(45deg, #17a2b8, #138496);
+      box-shadow: 0 2px 4px rgba(23,162,184,0.3);
+    }
+    
+    .course-badge.bg-danger {
+      background: linear-gradient(45deg, #dc3545, #c82333);
+      box-shadow: 0 2px 4px rgba(220,53,69,0.3);
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      min-height: 60vh;
+      padding-bottom: 3rem;
+    }
+    
+    /* Page Title Styles */
+    .page-title {
+      color: #343a40;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Table Styles */
+    .students-table {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .students-table th {
+      background-color: #343a40;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: none;
+      padding: 1rem;
+    }
+    
+    .students-table td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-color: #e9ecef;
+    }
+    
+    .students-table tbody tr:hover {
+      background-color: #f8f9fa;
+      cursor: pointer;
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #6c757d;
+    }
+    
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 2rem 0;
+      }
+      
+      .students-table {
+        font-size: 0.875rem;
+      }
+      
+      .students-table th,
+      .students-table td {
+        padding: 0.75rem 0.5rem;
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+    }
+    
+    /* Table Header Icons */
+    .table-icon {
+      margin-right: 0.5rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <!-- Header -->
+  <header>
+    {% include 'header.html' %}
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    {% include 'hero-section.html' %}
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content flex-grow-1">
+    <div class="container">
+      <!-- Page Title -->
+      <div class="row">
+        <div class="col-12">
+          <h1 class="page-title text-center">
+            <i class="fas fa-users me-2"></i>
+            Alunos Inscritos
+          </h1>
+        </div>
+      </div>
+
+      <!-- Students Table -->
+      <div class="row">
+        <div class="col-12">
+          {% if students %}
+            <div class="table-responsive">
+              <table class="table table-hover students-table mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <i class="fas fa-hashtag table-icon"></i>
+                      ID
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-user table-icon"></i>
+                      Nome
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-envelope table-icon"></i>
+                      Email
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-phone table-icon"></i>
+                      Telefone
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-graduation-cap table-icon"></i>
+                      Curso
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for student in students %}
+                    <tr>
+                      <td>
+                        <strong>{{ student.id }}</strong>
+                      </td>
+                      <td>{{ student.full_name }}</td>
+                      <td>
+                        <a href="mailto:{{ student.email }}" class="text-decoration-none">
+                          {{ student.email }}
+                        </a>
+                      </td>
+                      <td>
+                        <a href="tel:{{ student.phone }}" class="text-decoration-none">
+                          {{ student.phone }}
+                        </a>
+                      </td>
+                      <td>
+                        <span class="badge bg-primary fs-6">
+                          {{ student.course_title }}
+                        </span>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Students Count -->
+            <div class="mt-3 text-center text-muted">
+              <small>
+                <i class="fas fa-info-circle me-1"></i>
+                Total de alunos inscritos: {{ students|length }}
+              </small>
+            </div>
+          {% else %}
+            <!-- Empty State -->
+            <div class="empty-state">
+              <i class="fas fa-user-graduate"></i>
+              <h3>Nenhum aluno inscrito</h3>
+              <p class="text-muted">
+                Ainda não há alunos inscritos no sistema.
+              </p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto">
+    {% include 'footer.html' %}
+  </footer>
+
+  <!-- Bootstrap JS (se necessário) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

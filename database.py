@@ -1,16 +1,24 @@
 import os
+from dotenv import load_dotenv
 from flask import url_for
 from sqlalchemy import create_engine, text
 
 
+load_dotenv()
 
-# Pega a connection string do Render
-db_url = os.environ.get("DATABASE_URL")
-if not db_url:
-    raise ValueError("A variável de ambiente DATABASE_URL não está definida.")
+db_url = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:senha@localhost:5432/courses_db")
 
 engine = create_engine(db_url)
 
+
+# Se estiver usando Render, força SSL
+if "render.com" in db_url:
+    if "?" in db_url:
+        db_url += "&sslmode=require"
+    else:
+        db_url += "?sslmode=require"
+
+engine = create_engine(db_url)
 
 # engine = create_engine(
     #             "mysql+pymysql://root:Riqueza1822@localhost/courses")
@@ -68,5 +76,13 @@ def add_dataform_to_db(course_id, data):
             'level_know': data['level_know']  
         })
         conn.commit()
+        
+def view_students_db():
+    with engine.connect() as conn:
+        query = conn.execute(text("SELECT * FROM forms"))
+        students = []
+        for row in query.mappings().all():
+            students.append(dict(row)) 
+        return students
 
 
