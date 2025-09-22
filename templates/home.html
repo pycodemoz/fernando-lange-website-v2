@@ -144,7 +144,7 @@
       <div class="course-card">
         <div class="d-flex align-items-center">
           <!-- Imagem do curso -->
-          <img src="{{ course['image_url'] }}" alt="{{ course.title }}" class="course-image me-4">
+          <img src="{{ url_for('static', filename=course.image_filename) }}" alt="{{ course.title }}" class="course-image me-4">
 
           <div class="flex-grow-1">
             <!-- Título do curso -->
