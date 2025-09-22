@@ -1,22 +1,15 @@
 import os
-from dotenv import load_dotenv
-from flask import url_for
 from sqlalchemy import create_engine, text
 
 
-load_dotenv()
 
-db_url = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:senha@localhost:5432/courses_db")
+
+db_url = os.getenv("DATABASE_URL")
 
 engine = create_engine(db_url)
 
 
-# Se estiver usando Render, força SSL
-if "render.com" in db_url:
-    if "?" in db_url:
-        db_url += "&sslmode=require"
-    else:
-        db_url += "?sslmode=require"
+
 
 engine = create_engine(db_url)
 
