@@ -60,14 +60,21 @@
   <div class="container my-5">
     <h2 class="section-title">✅ Inscrição Confirmada!</h2>
     <div class="course-card text-center">
-      <h4>{{ course['title'] }}</h4>
-      {% if course['image_url'] %}
-        <img src="{{ course['image_url'] }}" class="course-image mb-3" alt="Imagem do curso">
-      {% endif %}
-      <p><strong>Nome Completo:</strong> {{ submit['full_name'] }}</p>
-      <p><strong>Email:</strong> {{ submit['email'] }}</p>
-    </div>
-  </div>
+      <h4>{{ course.title }}</h4>
 
+      {% if course.image_filename %}
+        <img src="{{ url_for('static', filename=course.image_filename) }}" class="course-image mb-3" alt="Imagem do curso">
+      {% endif %}
+
+      <p><strong>Nome Completo:</strong> {{ submit.full_name }}</p>
+      <p><strong>Email:</strong> {{ submit.email }}</p>
+      {% if submit.phone %}
+        <p><strong>Telefone:</strong> {{ submit.phone }}</p>
+      {% endif %}
+      {% if submit.level_know %}
+        <p><strong>Nível de Conhecimento:</strong> {{ submit.level_know }}</p>
+      {% endif %}
+    </div>
+</div>
   {% include 'footer.html' %}
 </body>

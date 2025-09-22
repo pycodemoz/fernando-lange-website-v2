@@ -45,16 +45,6 @@ def submit_course(id):
     except Exception as e:
         return f"Erro inesperado: {e}"
 
-
-# Teste de conexão com DB
-
-@app.route("/test-db")
-def test_db():
-    try:
-        result = engine.execute("SELECT 1").fetchall()
-        return f"DB conectado: {result}"
-    except Exception as e:
-        return f"Erro DB: {e}"
     
 
 if __name__ == "__main__":
