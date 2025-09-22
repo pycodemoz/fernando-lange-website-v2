@@ -11,6 +11,9 @@ if not db_url:
 
 engine = create_engine(db_url)
 
+print("DATABASE_URL:", db_url)
+
+
 
 # engine = create_engine(
     #             "mysql+pymysql://root:Riqueza1822@localhost/courses")
@@ -60,9 +63,12 @@ def check_existing_subscription(course_id, email):
 def add_dataform_to_db(course_id, data):
     if check_existing_subscription(course_id, data['email']):
         raise ValueError("Este email já está inscrito neste curso.")
-    with engine.connect() as conn:
-        query = text("INSERT INTO forms (course_id, full_name, phone, email, level_know) VALUES(:course_id, :full_name, :phone, :email, :level_know)")
-   
+    
+    with engine.begin() as conn:  # ← begin() garante commit automático
+        query = text("""
+            INSERT INTO forms (course_id, full_name, phone, email, level_know)
+            VALUES(:course_id, :full_name, :phone, :email, :level_know)
+        """)
         conn.execute(query, {
             'course_id': course_id,
             'full_name': data['full_name'],
@@ -70,8 +76,6 @@ def add_dataform_to_db(course_id, data):
             'email': data['email'],
             'level_know': data['level_know']  
         })
-        
-        # Importante: faça commit da transação
-        conn.commit()
+
 
 
