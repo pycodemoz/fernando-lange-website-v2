@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fernando Lange Website - Cursos</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
+   {% include 'bootstrap.html' %}
+
+    <style>
     .hero-section {
       background: #343a40;
       color: white;
@@ -52,28 +50,20 @@
     }
   </style>
 </head>
-<body class="d-flex flex-column h-100">
 
+<body class="d-flex flex-column h-100">
   <header>
     {% include 'header.html' %}
   </header>
-
-  <!-- Hero Section -->
+   
+   <!-- Hero Section -->
   <section class="hero-section">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-8">
-          <h1 class="display-4 fw-bold mb-3">Cursos da Pycodemoz</h1>
-          <p class="lead mb-4">Desenvolva suas habilidades em programação com nossos cursos práticos e atualizados</p>
-        </div>
-        <div class="col-lg-4">
-          <img class="img-fluid rounded shadow" src="static/dev.jpg" alt="Desenvolvimento de Software" style="max-height: 300px; width: 100%; object-fit: cover;">
-        </div>
-      </div>
-    </div>
+    {% include 'hero-section.html' %}
   </section>
+  
 
   <!-- Conteúdo principal -->
+
   <main class="flex-shrink-0">
     <div class="container py-5">
       
@@ -142,47 +132,59 @@
       </section>
 
       <!-- Lista de Cursos -->
-      <section>
-        <h2 class="section-title">Cursos Disponíveis</h2>
-        
-        <div class="row">
-          {% for course in courses %}
-          <div class="col-lg-6 mb-4">
-            <div class="course-card">
-              <div class="d-flex align-items-center">
-                <img src="{{ course.image }}" alt="{{ course.title }}" class="course-image me-4">
-                
-                <div class="flex-grow-1">
-                  <h5 class="mb-2">
-                    <a href="#" class="text-decoration-none text-dark">{{ course.title }}</a>
-                  </h5>
-                  <p class="text-muted mb-3 small">{{ course.description or 'Desenvolva suas habilidades com este curso prático e completo.' }}</p>
-                  
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge bg-primary">{{ course.level or 'Iniciante' }}</span>
-                    <button class="btn btn-success btn-sm">
-                      <i class="fas fa-play me-1"></i>
-                      Inscrever-se
-                    </button>
-                  </div>
-                </div>
-              </div>
+<section>
+  <h2 class="section-title">Cursos Disponíveis</h2>
+
+  <div class="row">
+    {% for course in courses %}
+    <div class="col-lg-6 mb-4">
+      <div class="course-card">
+        <div class="d-flex align-items-center">
+          <!-- Imagem do curso -->
+          <img src="{{ course['image_url'] }}" alt="{{ course.title }}" class="course-image me-4">
+
+          <div class="flex-grow-1">
+            <!-- Título do curso -->
+            <h5 class="mb-2">
+              <a href="/subscribe/{{ course['id'] }}" class="text-decoration-none text-dark">
+                {{ course.title }}
+              </a>
+            </h5>
+
+            <!-- Descrição -->
+            <p class="text-muted mb-3 small">
+              {{ course.description or 'Desenvolva suas habilidades com este curso prático e completo.' }}
+            </p>
+
+            <!-- Nível e botão -->
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="badge bg-primary">{{ course.level or 'Iniciante' }}</span>
+
+              <!-- Botão Inscrever-se -->
+              <a href="/subscribe/{{ course['id'] }}" class="btn btn-success btn-sm">
+                <i class="fas fa-play me-1"></i>
+                Inscrever-se
+            </a>
             </div>
           </div>
-          {% endfor %}
         </div>
-        
-        <!-- Caso não haja cursos -->
-        {% if not courses %}
-        <div class="text-center py-5">
-          <div class="mb-4">
-            <i class="fas fa-book-open" style="font-size: 4rem; color: #6c757d;"></i>
-          </div>
-          <h4 class="text-muted">Novos cursos em breve!</h4>
-          <p class="text-muted">Estamos preparando conteúdos incríveis para você. Volte em breve!</p>
-        </div>
-        {% endif %}
-      </section>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Caso não haja cursos -->
+  {% if not courses %}
+  <div class="text-center py-5">
+    <div class="mb-4">
+      <i class="fas fa-book-open" style="font-size: 4rem; color: #6c757d;"></i>
+    </div>
+    <h4 class="text-muted">Novos cursos em breve!</h4>
+    <p class="text-muted">Estamos preparando conteúdos incríveis para você. Volte em breve!</p>
+  </div>
+  {% endif %}
+</section>
+
       
     </div>
   </main>

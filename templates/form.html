@@ -1,0 +1,116 @@
+
+{% include 'bootstrap.html' %}
+
+<style>
+  .custom-hero {
+    background-color: #343a40;
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .course-card {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 1.5rem;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+</style>
+
+<body class="d-flex flex-column h-100">
+  <header>
+    {% include 'header.html' %}
+  </header>
+
+  {% if course %}
+  <!-- Hero Section -->
+  <section class="custom-hero text-white">
+    <div class="container mt-1">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-5 fw-bold mb-3">{{ course.title }}</h1>
+          <p class="lead mb-0">Preencha o formulário abaixo para se inscrever neste curso</p>
+        </div>
+        <div class="col-lg-4 text-center">
+          <i class="fas fa-graduation-cap" style="font-size: 5rem; opacity: 0.7;"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulário de inscrição -->
+  <div class="container mb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card course-card">
+          <div class="card-body">
+            <form action="/course/{{ course['id'] }}/submit" method="POST">
+
+              <!-- Mensagem de erro -->
+
+                {% if error %}
+                  <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-triangle me-1"></i>
+                    {{ error }}
+                  </div>
+                {% endif %}
+                
+                    <!-- Nome -->
+                    <div class="mb-3">
+                      <label for="full_name" class="form-label">Nome</label>
+                      <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Seu nome" required>
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="mb-3">
+                      <label for="phone" class="form-label">Telefone</label>
+                      <input type="tel" class="form-control" id="phone" name="phone" placeholder="(258845890222)" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+
+                    <!-- Nível do Curso (somente leitura) -->
+                    <div class="mb-4">
+                      <label for="level_know" class="form-label">Nível do Curso</label>
+                      <input type="text" class="form-control" value="{{ course.level|title }}" readonly>
+                      <input type="hidden" name="level_know" value="{{ course.level }}">
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="/" class="btn btn-secondary">
+                          <i class="fas fa-arrow-left me-1"></i>
+                          Voltar para lista de cursos
+                        </a>
+                        
+                        <button type="submit" class="btn btn-success">
+                          <i class="fas fa-check me-1"></i>
+                          Inscrever-se
+                        </button>
+                      </div>
+                 </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <div class="container text-center py-5">
+    <h3>Curso não encontrado.</h3>
+    <p>Verifique se você selecionou um curso válido.</p>
+  </div>
+  {% endif %}
+
+  {% include 'footer.html' %}
+</body>

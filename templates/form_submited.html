@@ -1,0 +1,73 @@
+{% include 'bootstrap.html' %}
+<style>
+    .hero-section {
+      background: #343a40;
+      color: white;
+      padding: 4rem 0;
+    }
+    
+    .course-card {
+      transition: transform 0.2s ease-in-out;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .course-image {
+      border-radius: 8px;
+      width: 220px;
+      height: 110px;
+      object-fit: cover;
+    }
+    
+    .section-title {
+      color: #495057;
+      margin-bottom: 2rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: #667eea;
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+  <header>
+    {% include 'header.html' %}
+  </header>
+   
+   <!-- Hero Section -->
+  <section class="hero-section">
+    {% include 'hero-section.html' %}
+  </section>
+
+  <div class="container my-5">
+    <h2 class="section-title">✅ Inscrição Confirmada!</h2>
+    <div class="course-card text-center">
+      <h4>{{ course['title'] }}</h4>
+      {% if course['image_url'] %}
+        <img src="{{ course['image_url'] }}" class="course-image mb-3" alt="Imagem do curso">
+      {% endif %}
+      <p><strong>Nome Completo:</strong> {{ submit['full_name'] }}</p>
+      <p><strong>Email:</strong> {{ submit['email'] }}</p>
+    </div>
+  </div>
+
+  {% include 'footer.html' %}
+</body>
