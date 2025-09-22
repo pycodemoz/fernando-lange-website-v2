@@ -1,9 +1,16 @@
+import os
 from flask import url_for
 from sqlalchemy import create_engine, text
 
 
+
+
+
+    # engine = create_engine(
+    #             "mysql+pymysql://root:Riqueza1822@localhost/courses")
 engine = create_engine(
-            "mysql+pymysql://root:Riqueza1822@localhost/courses")
+    "postgresql://courses_db_ybb6_user:<senha>@dpg-d38n5kvfte5s73c8haag-a.oregon-postgres.render.com:5432/courses_db_ybb6"
+)
 
 
 def load_courses_db():
